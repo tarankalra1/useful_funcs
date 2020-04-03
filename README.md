@@ -21,7 +21,7 @@ At this point need the IAM configuration secret key settings.
 Got this from Rich
 
 ---------------
-
+https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
 4. pcluster configure
 
 INFO: Configuration file /home/taran/.parallelcluster/config will be written.
