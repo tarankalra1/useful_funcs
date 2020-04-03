@@ -46,9 +46,9 @@ said that the stack was completed
 11 mins took to do this step . 
 
 =========================================
+https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html
 
-
-
+The master node manages the cluster and typically runs master components of distributed applications. For example, the master node runs the YARN ResourceManager service to manage resources for applications, as well as the HDFS NameNode service. It also tracks the status of jobs submitted to the cluster and monitors the health of the instance groups.
 
 ## Install Intel Compiler with Spack
 
