@@ -1,4 +1,56 @@
- ## Install Intel Compiler with Spack
+1. install awscli so you can use aws commands 
+
+sudo apt install awscli
+
+''
+
+DECIDED TO DO everything via CONDA 
+
+On ubutnu 18.04 
+
+1. conda install -c conda-forge awscli
+2. conda install -c conda-forge aws-parallelcluster
+
+
+Start the configurattion 
+At this point need the IAM configuration secret key settings. 
+
+
+3. aws configure
+-------
+Got this from Rich
+
+---------------
+
+4. pcluster configure
+
+INFO: Configuration file /home/taran/.parallelcluster/config will be written.
+
+==================================
+
+VPC instructions for AWS parallelcluster
+Automate VPC creation? (y/n) [n]: y
+Allowed values for Network Configuration:
+1. Master in a public subnet and compute fleet in a private subnet
+2. Master and compute fleet in the same public subnet
+Network Configuration [Master in a public subnet and compute fleet in a private subnet]: 1
+Beginning VPC creation. Please do not leave the terminal until the creation is finalized
+=
+
+When AWS was complete it showed no errors in the config file and 
+said that the stack was completed
+==============================================================================
+
+5. pcluster create -c ghost_config ghost
+
+11 mins took to do this step . 
+
+=========================================
+
+
+
+
+## Install Intel Compiler with Spack
 
 1. Install Spack on a fresh AWS HPC cluster
 
@@ -89,3 +141,22 @@ ln -s hd5%1.10.5%intel@19.0.4.243/lib netcdf@4.7.0%intel@19.0.4.243
 
 ADd things in bashrc for the netcdf
 export NETCDF_HOME=$(spack location -i netcdf)/
+
+
+6. 
+plcuster start ghost 
+This is reuqired to start the compute nodes. 
+
+
+
+
+
+=======================================
+Some links: 
+1. https://github.com/JiaweiZhuang/cloud-gchp-paper/issues/6
+
+Instructions that we used 
+2. https://github.com/JiaweiZhuang/cloud-gchp-paper
+
+
+
