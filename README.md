@@ -152,6 +152,9 @@ This is reuqired to start the compute nodes.
 
 
 =======================================
+SSH TO GHOST 
+ ssh -i "xxxx.pem" centos@ec2-cccxxxxxcc.us-xxxxx.compute.amazonaws.com
+
 Some links: 
 1. https://github.com/JiaweiZhuang/cloud-gchp-paper/issues/6
 
