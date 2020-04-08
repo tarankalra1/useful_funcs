@@ -58,8 +58,8 @@ that has a higher memory and higher number of virtual cores. Because our account
 *VPC instructions for AWS parallelcluster
 Automate VPC creation? (y/n) [n]: y
 Allowed values for Network Configuration:
-** Master in a public subnet and compute fleet in a private subnet
-** Master and compute fleet in the same public subnet
+--Master in a public subnet and compute fleet in a private subnet
+--Master and compute fleet in the same public subnet
 Network Configuration [Master in a public subnet and compute fleet in a private subnet]: 1
 Beginning VPC creation. Please do not leave the terminal until the creation is finalized
 * disable_hyperthreading = true (Models like COAWST benefit from disabling hyperthreading because .............communication slowdown..
