@@ -12,9 +12,22 @@ It contains two pieces of information
 
 #### 2. Setting up your local machine to use AWS commands
 There are many ways to install software that can lead to using AWS commands from our local machine. One good idea is to use the anaconda tool that is widely used and is free to use. It can be downloaded in all platforms (Windows, MAC, Linux). The main idea behind using anaconda is to have a command type terminal on your local machine. Legacy users can think of this as CYGWIN. 
+Download link: https://www.anaconda.com/distribution/#download-section
 
-
-AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Once anaconda is installed it provides a command line environment to install AWSCLI (i.e. AWS Command Line Interface). AWSCLI software would let the users to use AWS commands from their local machine. To install AWSCLI open the anaconda terminal and type the following command to get the AWSCLI:
+```
+conda forge
+```
+Now we have the software installed to use AWS commands and need to configure them with the secret access key. 
+This is done by the command:
+```
+aws configure 
+```
+It asks for the following questions that contain the IAM information for each user. An example is shown here:
+```
+AWS Access Key ID [None]: ARANTLRADSGH 
+AWS Secret Access Key [None]: wxxxxxxxxxxxxxxxxEXAMPLEKEY
 Default region name [None]: us-west-2
 Default output format [None]: json
+```
+Now we are all set to use the AWS commands 
