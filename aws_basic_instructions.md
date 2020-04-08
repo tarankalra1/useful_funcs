@@ -16,7 +16,7 @@ Download link: https://www.anaconda.com/distribution/#download-section
 
 Once anaconda is installed it provides a command line environment to install AWSCLI (i.e. AWS Command Line Interface). AWSCLI software would let the users to use AWS commands from their local machine. To install AWSCLI open the anaconda terminal and type the following command to get the AWSCLI:
 ```
-conda forge
+conda install -c conda-forge awscli
 ```
 Now we have the software installed to use AWS commands and need to configure them with the secret access key. 
 This is done by the command:
@@ -47,7 +47,7 @@ https://docs.aws.amazon.com/cli/latest/reference/ec2/start-instances.html
 Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair (it could be a .pem file) to connect to the master node that is provided by the admin. The instructions for connecting to the instanceid can be found by clicking connect on the AWS console. 
 
 ```
-ssh -i keypairname.pem root@ec2-xx-xx-xxxx--xxx.us-west-2.compute.amazon.com
+ssh -i "keypairname.pem" root@ec2-xx-xx-xxxx--xxx.us-west-2.compute.amazon.com
 ```
 
 After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting and turning the master node off. 
