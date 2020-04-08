@@ -20,6 +20,7 @@ Once anaconda is installed it provides a command line environment to install AWS
 ```
 conda install -c conda-forge awscli
 ```
+Next, download the AWS tool that would allow for parallel cluster management
 ```
 conda install -c conda-forge aws-parallelcluster
 ```
@@ -244,7 +245,9 @@ export NETCDF_INCDIR=$(spack location -i netcdf@4.7.0%intel@19.0.4.243)/include
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${NETCDF_LIBDIR}
 ```
 We have a sample .bashrc after installing all the dependencies located here: 
+```
 https://github.com/rsignell-usgs/coawst-aws/blob/master/.bashrc
+```
 
 5. Compiling and running COAWST model
 We have installed intel fortran compiler with netcdf and mpi which completes all the dependencies to compile COAWST model. 
@@ -254,6 +257,10 @@ git clone https://github.com/jcwarner-usgs/COAWST.git
 ```
 Note that this version of COAWST is not the official USGS distributed copy and its only used for testing purposes. 
 We have edited a sample coawst.bash for trench case that can be obtained from this link: 
+```
 https://github.com/rsignell-usgs/coawst-aws/blob/master/coawst/coawst.bash
+```
 and a sample job script here. 
+```
 https://github.com/rsignell-usgs/coawst-aws/blob/master/coawst/run_test
+```
