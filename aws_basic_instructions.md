@@ -38,12 +38,18 @@ aws cp
 
 #### 3. Accessing the HPC resources on AWS cloud
 Assuming that our scientific code is already setup on the cloud environment, the user needs to login into the master node of EC2 and then would use the compute nodes to run our jobs. These jobs are submitted through a batch job scheduler (Slurm or PBS). This is similar to a HPC environment.  
-To do this, first switch the master node on by. It can be thought of as turning the computer on. For this, the user needs to know id associated with the master node. 
+To do this, first the master node needs to be started. It can be thought of as turning the computer on. The master node can be started through the AWS console in the web interface or alternatively use the instance ID with the following command line option: 
 ```
+aws ec2 start-instances instance-ids i-1235550000sample 
 ```
-Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair to connect to the master node that is provided by the admin. 
+https://docs.aws.amazon.com/cli/latest/reference/ec2/start-instances.html
+
+Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair (it could be a .pem file) to connect to the master node that is provided by the admin. The instructions for connecting to the instanceid can be found by clicking connect on the AWS console. 
+
 ```
+ssh -i keypairname.pem root@ec2-xx-xx-xxxx--xxx.us-west-2.compute.amazon.com
 ```
+
 After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting and turning the master node off. 
 ```
 ```
