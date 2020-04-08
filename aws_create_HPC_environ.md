@@ -43,6 +43,9 @@ aws s3 textfile_check.txt cp s3://coawst/textfile_check.txt
 Transfers a sample textfile_check.txt to S3/coawst directory. One can check that it is copied by accessing the S3 services in AWS console and navigating to the coawst folder.
 
 #### 3. Configuring parallel cluster options 
+We create the cluster on a master node. The master node manages the cluster and typically runs master components of distributed applications.  It also tracks the status of jobs submitted to the cluster and monitors the health of the instance groups.
+This is similar to a HPC system.
+
 Login to AWS console, search for EC2 service, then select keypair and create a new keypair (we called our "reaper"), selecting ".pem" for openssh. Download the .pem file and move to the ~/.ssh folder on your local machine.
 
 Run 
@@ -51,8 +54,8 @@ pcluster configure ghost_config
 ```
 where ghost_config is the configuration file name and use "reaper" for the keypair name (We created that keypair above). (Should already be in the selection menu)
 
-It would ask for several options to setup the configuration file and ours are listed below. 
-Notes:
+It would ask for several options to setup the configuration file and ours are listed below. We have our configuration file below. 
+Some of the important options during the setup are noted here:
 * base_os = We chose the Centos operating system (Linux OS)
 * compute_instance_type= defines the computing power and is associated with our account. We can use a different compute cluster
 that has a higher memory and higher number of virtual cores. Because our account had set a maximum default of 16 virtual CPU's, we ended up using c5n.4xlarge. For more on computing instance types, check https://aws.amazon.com/ec2/instance-types/
@@ -110,33 +113,77 @@ When configuration was complete setting up it showed no errors in the config fil
 
 Note: The configuration file is created on the path ~/.parallelcluster/config in our local machine
 
-#### 4.  
-
- 4. pcluster configure
-
-INFO: Configuration file /home/taran/.parallelcluster/config will be written.
-
-==================================
-
-VPC instructions for AWS parallelcluster Automate VPC creation? (y/n) [n]: y Allowed values for Network Configuration:
-
-Master in a public subnet and compute fleet in a private subnet
-Master and compute fleet in the same public subnet Network Configuration [Master in a public subnet and compute fleet in a private subnet]: 1 Beginning VPC creation. Please do not leave the terminal until the creation is finalized =
-When AWS was complete it showed no errors in the config file and said that the stack was completed
-
+#### 4. Setting up the dependencies for COAWST on AWS cloud
+Now that our parallel cluster is configured, we need to ssh into it and start installing the dependencies.
+To login into the cluster "ghost" that we created in step 3, use:
 ```
-pcluster create -c ghost_config ghost
+plcuster start ghost 
+``` 
+Now we should be logged into our master node and ready to install dependencies for our software. 
+This is where we use most of the instructions of Jiawei's latest blog post. 
+We will use the package manager Spack which allows for using multiple versions of any software to be easily installed. For example, we 
+can chose a particular version of netcdf and ifort. 
+
+* So, first we install SPACK 
+```
+cd $HOME
+git clone https://github.com/spack/spack.git
+cd spack
+git checkout 3f1c78128ed8ae96d2b76d0e144c38cbc1c625df  # Spack v0.13.0 release in Oct 26 2019 broke some previous commands. Freeze it to ~Sep 2019.
+echo 'source $HOME/spack/share/spack/setup-env.sh' >> $HOME/.bashrc
+source $HOME/.bashrc
+spack compilers  # check whether Spack can find system compilers
+```
+Note: we checked out a particular stable version of SPACK. We saved the path of spack in our .bashrc and then checked for Spack installed
+compilers.
+
+* We are going to work with Intel license file and copy that to under the directory `/opt/intel/licenses/`. 
+
+* Run 
+```spack config --scope=user/linux edit compilers```
+and edit the file 
+```~/.spack/linux/compilers.yaml
+```
+Copy and paste the following block into the file, in addition to the original `gcc` section:
+```
+- compiler:
+    target:     x86_64
+    operating_system:   centos7
+    modules:    []
+    spec:       intel@19.0.4
+    paths:
+        cc:       stub
+        cxx:      stub
+        f77:      stub
+        fc:       stub
 ```
 
-11 mins took to do this step .
-
-========================================= https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html
-
-The master node manages the cluster and typically runs master components of distributed applications. For example, the master node runs the YARN ResourceManager service to manage resources for applications, as well as the HDFS NameNode service. It also tracks the status of jobs submitted to the cluster and monitors the health of the instance groups.
-
-Install Intel Compiler with Spack
-Install Spack on a fresh AWS HPC cluster
+* Install Intel compiler by running
 ```
+spack install intel@19.0.4 %intel@19.0.4
+``` 
+Spack will spend a long time downloading the installer `http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/15537/parallel_studio_xe_2019_update4_composer_edition.tgz`. When the download finishes, need to confirm the license term, by simply exiting the prompted text editor (`:wq` in `vim`).
+
+* Run 
+```
+find $(spack location -i intel) -name icc -type f -ls 
+```
+to get the compiler executable path like /home/centos/spack/opt/spack/.../icc.
+Now we know where icc, ifort, etc. are located. We will add these paths in compiler.yaml of spack that we edited earlier.
+Run 
+```spack config --scope=user/linux edit compilers```
+and edit the file 
+```~/.spack/linux/compilers.yaml
+```
+Now fill in the previous stub entries with the actual paths: .../icc, .../icpc, .../ifort. 
+(Without this step, will get configure: error: C compiler cannot create executables when later building NetCDF with Spack).
+
+
+
+
+
+
+
 cd $HOME
 git clone https://github.com/spack/spack.git
 cd spack
@@ -163,7 +210,6 @@ Follow the steps for Installing Intel tools within Spack. Basically, run spack c
 Run spack install intel@19.0.4 %intel@19.0.4 to install the compiler. Spack will spend a long time downloading the installer http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/15537/parallel_studio_xe_2019_update4_composer_edition.tgz. When the download finishes, need to confirm the license term, by simply exiting the prompted text editor (:wq in vim).
 Tip: If the installation needs to be done frequently, better save the .tgz file to S3 and follow Integration of Intel tools installed external to Spack instead.
 
-Run find $(spack location -i intel) -name icc -type f -ls to get the compiler executable path like /home/centos/spack/opt/spack/.../icc. Run spack config --scope=user/linux edit compilers again and fill in the previous stub entries with the actual paths: .../icc, .../icpc, .../ifort. (Without this step, will get configure: error: C compiler cannot create executables when later building NetCDF with Spack).
 
 Discover the compiler executable:
 
