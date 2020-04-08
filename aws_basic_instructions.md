@@ -44,7 +44,10 @@ To do this, first switch the master node on by. It can be thought of as turning 
 Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair to connect to the master node that is provided by the admin. 
 ```
 ```
-After this we are logged in the master node. From here on it is a regular HPC environment to run our jobs. 
+After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting and turning the master node off. 
+```
+```
+The admin can also create an alarm to automatically terminate master node off if it is left unused.
 
 
 
