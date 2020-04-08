@@ -55,6 +55,13 @@ Notes:
 * base_os = We chose the Centos operating system (Linux OS)
 * compute_instance_type= defines the computing power and is associated with our account. We can use a different compute cluster
 that has a higher memory and higher number of virtual cores. Because our account had set a maximum default of 16 virtual CPU's, we ended up using c5n.4xlarge. For more on computing instance types, check https://aws.amazon.com/ec2/instance-types/
+*VPC instructions for AWS parallelcluster
+Automate VPC creation? (y/n) [n]: y
+Allowed values for Network Configuration:
+** Master in a public subnet and compute fleet in a private subnet
+** Master and compute fleet in the same public subnet
+Network Configuration [Master in a public subnet and compute fleet in a private subnet]: 1
+Beginning VPC creation. Please do not leave the terminal until the creation is finalized
 * disable_hyperthreading = true (Models like COAWST benefit from disabling hyperthreading because .............communication slowdown..
 Taran check)
 * enable_efa = (Not done yet and plan to do that)
