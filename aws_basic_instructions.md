@@ -50,10 +50,13 @@ Now that the master node is running, we can login into that by using this comman
 ssh -i "keypairname.pem" root@ec2-xx-xx-xxxx--xxx.us-west-2.compute.amazon.com
 ```
 
-After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting the master node off first requires to just use "exit" command equivalent to getting out of our HPC computer but we also don't want to leave our master node running (i.e. our machine running). So we have to terminate the instance. Exiting and turning the master node off. 
+After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting the master node off first requires to just use "exit" command equivalent to getting out of our HPC computer but we also don't want to leave our master node running (i.e. our machine running). So we have to stop the instance. Exiting and turning the master node off. 
 ```
+aws ec2 stop-instances instance-ids i-1235550000sample 
 ```
-The admin can also create an alarm to automatically to terminate master node off if it is left unused.
+The admin can also create an alarm to automatically stop master node if it is left unused for a certain amount of hours or days.
+
+Note- Do not terminate the instance from AWS console. Termination deletes all the data i.e. all the installed software in our case. 
 
 An important part here is that unlike using the HPC facility, we have now created a cloud HPC environment and saving resources is more in our control than a 3rd party. 
 
