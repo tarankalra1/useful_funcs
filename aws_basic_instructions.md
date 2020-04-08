@@ -44,8 +44,7 @@ aws ec2 start-instances instance-ids i-1235550000sample
 ```
 https://docs.aws.amazon.com/cli/latest/reference/ec2/start-instances.html
 
-Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair (it could be a .pem file) to connect to the master node that is provided by the admin. The instructions for connecting to the instanceid can be found by clicking connect on the AWS console. 
-
+Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair (it could be a .pem file) to connect to the master node that is provided by the admin. The instructions for connecting to the instanceid can be found by clicking connect on the AWS console. From command line using the Public DNS and having the keypair, we can connect to the master node using:
 ```
 ssh -i "keypairname.pem" root@ec2-xx-xx-xxxx--xxx.us-west-2.compute.amazon.com
 ```
