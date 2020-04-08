@@ -249,7 +249,7 @@ We have a sample .bashrc after installing all the dependencies located here:
 https://github.com/rsignell-usgs/coawst-aws/blob/master/.bashrc
 ```
 
-5. Compiling and running COAWST model
+#### 5. Compiling and running COAWST model
 We have installed intel fortran compiler with netcdf and mpi which completes all the dependencies to compile COAWST model. 
 We can download COAWST from
 ```
