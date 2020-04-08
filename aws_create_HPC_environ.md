@@ -1,5 +1,5 @@
 
-These instructions would let one build a parallel cluster using AWS services. It will be equivalent to doing the job of an administrator for installing and maintaing a HPC facility for scientific computing applications. The instructions are heavily borrowed from the work of Jiawei Zhang at Harvard University and his two papers provide all the details related for advancing scientific computing applications on a cloud environment  
+These instructions would let one build a parallel cluster using AWS services. It will be equivalent to doing the job of an administrator for installing and maintaing a HPC facility for scientific computing applications. The instructions are heavily borrowed from the work of Jiawei Zhang from Harvard University. His two papers provide all the details related for advancing scientific computing applications on a cloud environment  
 
 A HPC type AWS cloud environment contains two resources that users would use and they include:
 * EC2 -> Elastic Compute Cloud that is equivalent of having a machine to run the jobs.
@@ -43,6 +43,52 @@ aws s3 textfile_check.txt cp s3://coawst/textfile_check.txt
 Transfers a sample textfile_check.txt to S3/coawst directory. One can check that it is copied by accessing the S3 services in AWS console and navigating to the coawst folder.
 
 #### 3. Configuring parallel cluster options 
+Login to AWS console, search for EC2 service, then select keypair and create a new keypair (we called our "reaper"), selecting ".pem" for openssh. Download the .pem file and move to the ~/.ssh folder on your local machine.
+
+Run 
+```
+pcluster configure
+```
+and use "reaper" for the keypair name. (Should already be in the selection menu)
+It would ask for several options to setup the configuration file and ours are listed below. 
+Notes:
+* base_os - We chose the Centos operating system (Linux OS)
+* compute_instance_type- defines the computing power and is associated with our account. We can use a different compute cluster
+that has a higher memory and higher number of virtual cores. Because our account had set a maximum default of 16 virtual CPU's, we ended up using c5n.4xlarge. For more on computing instance types, check https://aws.amazon.com/ec2/instance-types/
+
+##### Configuration file options
+```
+[aws]
+aws_region_name = us-west-2
+
+[global]
+cluster_template = default
+update_check = true
+sanity_check = true
+
+[aliases]
+ssh = ssh {CFN_USER}@{MASTER_IP} {ARGS}
+
+[cluster default]
+key_name = reaper
+base_os = centos7
+scheduler = slurm
+master_instance_type = c5n.large
+compute_instance_type = c5n.4xlarge
+initial_queue_size = 1
+max_queue_size = 8
+maintain_initial_size = true
+vpc_settings = default
+
+[vpc default]
+vpc_id = vpc-0402215e278931469
+master_subnet_id = subnet-0d6031a19add9b228
+compute_subnet_id = subnet-0b84ee057b64da006
+use_public_ips = false
+```
+
+
+
 
 #### 4. 
 Assuming that our scientific code is already setup on the cloud environment, the user needs to login into the master node of EC2 and then would use the compute nodes to run our jobs. These jobs are submitted through a batch job scheduler (Slurm or PBS). This is similar to a HPC environment.  
