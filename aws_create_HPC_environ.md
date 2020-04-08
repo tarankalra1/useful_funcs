@@ -52,9 +52,12 @@ pcluster configure
 and use "reaper" for the keypair name. (Should already be in the selection menu)
 It would ask for several options to setup the configuration file and ours are listed below. 
 Notes:
-* base_os - We chose the Centos operating system (Linux OS)
-* compute_instance_type- defines the computing power and is associated with our account. We can use a different compute cluster
+* base_os = We chose the Centos operating system (Linux OS)
+* compute_instance_type= defines the computing power and is associated with our account. We can use a different compute cluster
 that has a higher memory and higher number of virtual cores. Because our account had set a maximum default of 16 virtual CPU's, we ended up using c5n.4xlarge. For more on computing instance types, check https://aws.amazon.com/ec2/instance-types/
+* disable_hyperthreading = true (Models like COAWST benefit from disabling hyperthreading because .............communication slowdown..
+Taran check)
+* enable_efa = (Not done yet and plan to do that)
 
 ##### Configuration file options
 ```
@@ -86,6 +89,14 @@ master_subnet_id = subnet-0d6031a19add9b228
 compute_subnet_id = subnet-0b84ee057b64da006
 use_public_ips = false
 ```
+We have the configuration file located at this link: https://github.com/rsignell-usgs/coawst-aws/blob/master/ghost_working_config
+
+The we created the cluster with the name "ghost":
+```
+pcluster create ghost 
+```
+
+
 
 
 
