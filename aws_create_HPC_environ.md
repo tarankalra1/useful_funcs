@@ -125,7 +125,7 @@ This is where we use most of the instructions of Jiawei's latest blog post.
 We will use the package manager Spack which allows for using multiple versions of any software to be easily installed. For example, we 
 can chose a particular version of netcdf and ifort. 
 
-* So, first we install SPACK 
+* 4.1 So, first we install SPACK 
 ```
 cd $HOME
 git clone https://github.com/spack/spack.git
@@ -138,9 +138,9 @@ spack compilers  # check whether Spack can find system compilers
 Note: we checked out a particular stable version of SPACK. We saved the path of spack in our .bashrc and then checked for Spack installed
 compilers.
 
-* We are going to work with Intel license file and copy that to under the directory `/opt/intel/licenses/`. 
+* 4.2 We are going to work with Intel license file and copy that to under the directory `/opt/intel/licenses/`. 
 
-* Run 
+and then run 
 ```
 spack config --scope=user/linux edit compilers
 ```
@@ -162,13 +162,13 @@ Copy and paste the following block into the file, in addition to the original `g
         fc:       stub
 ```
 
-* Install Intel compiler by running
+Install Intel compiler by running
 ```
 spack install intel@19.0.4 %intel@19.0.4
 ``` 
 Spack will spend a long time downloading the installer `http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/15537/parallel_studio_xe_2019_update4_composer_edition.tgz`. When the download finishes, need to confirm the license term, by simply exiting the prompted text editor (`:wq` in `vim`).
 
-* Run 
+Run 
 ```
 find $(spack location -i intel) -name icc -type f -ls 
 ```
@@ -182,16 +182,16 @@ and edit the file
 ```
 ~/.spack/linux/compilers.yaml
 ```
-Now fill in the previous stub entries with the actual paths: .../icc, .../icpc, .../ifort. 
+Fill in the previous stub entries with the actual paths: .../icc, .../icpc, .../ifort. 
 (Without this step, will get configure: error: C compiler cannot create executables when later building NetCDF with Spack).
 
-* Now that the ifort, icc compilers are installed, we should add them in our .bashrc
+Now that the ifort, icc compilers are installed, we should add them in our .bashrc
 ```
 source $HOME/spack/share/spack/setup-env.sh
 source $(spack location -i intel)/bin/compilervars.sh -arch intel64
 ```
 
-* Installing Intel-MPI
+* 4.3 Installing Intel-MPI
 AWS ParallelCluster comes with an Intel MPI installation, which can be found by 
 ```
 module show intelmpi
@@ -218,11 +218,11 @@ Now we will ensure that the intel mpi compiler is utilized instead of GNU compil
 module load intel-19.0.4-intel-19.0.4-u3y3ya4
 module load intelmpi
 ```
- * 
+ 
  ```
  spack compiler add
  ```
- * NETCDF installation
+ * 4.4 NETCDF installation
  ```
 spack -v install netcdf-fortran %intel ^netcdf~mpi ^hdf5~mpi+fortran+hl
 ```
