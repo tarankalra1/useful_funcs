@@ -33,8 +33,9 @@ Default output format [None]: json
 Now we are all set to use the AWS commandsfrom local machine and can check that this works by logging into AWS console (Section 1.1). 
 We can try to send a simple textfile from local machine to AWS S3 storage.
 ```
-aws cp 
+aws s3 textfile_check.txt cp s3://coawst/textfile_check.txt  
 ```
+Transfers a sample textfile_check.txt to S3/coawst directory. One can check that it is copied by accessing the S3 services in AWS console and navigating to the coawst folder. 
 
 #### 3. Accessing the HPC resources on AWS cloud
 Assuming that our scientific code is already setup on the cloud environment, the user needs to login into the master node of EC2 and then would use the compute nodes to run our jobs. These jobs are submitted through a batch job scheduler (Slurm or PBS). This is similar to a HPC environment.  
