@@ -47,23 +47,25 @@ Login to AWS console, search for EC2 service, then select keypair and create a n
 
 Run 
 ```
-pcluster configure
+pcluster configure ghost_config
 ```
-and use "reaper" for the keypair name. (Should already be in the selection menu)
+where ghost_config is the configuration file name and use "reaper" for the keypair name (We created that keypair above). (Should already be in the selection menu)
+
 It would ask for several options to setup the configuration file and ours are listed below. 
 Notes:
 * base_os = We chose the Centos operating system (Linux OS)
 * compute_instance_type= defines the computing power and is associated with our account. We can use a different compute cluster
 that has a higher memory and higher number of virtual cores. Because our account had set a maximum default of 16 virtual CPU's, we ended up using c5n.4xlarge. For more on computing instance types, check https://aws.amazon.com/ec2/instance-types/
-*VPC instructions for AWS parallelcluster
+* VPC instructions for AWS parallelcluster
 Automate VPC creation? (y/n) [n]: y
 Allowed values for Network Configuration:
---Master in a public subnet and compute fleet in a private subnet
---Master and compute fleet in the same public subnet
+a) Master in a public subnet and compute fleet in a private subnet
+b) Master and compute fleet in the same public subnet
 Network Configuration [Master in a public subnet and compute fleet in a private subnet]: 1
 Beginning VPC creation. Please do not leave the terminal until the creation is finalized
+
 * disable_hyperthreading = true (Models like COAWST benefit from disabling hyperthreading because .............communication slowdown..
-Taran check)
+  Taran check)
 * enable_efa = (Not done yet and plan to do that)
 
 ##### Configuration file options
@@ -96,32 +98,19 @@ master_subnet_id = subnet-0d6031a19add9b228
 compute_subnet_id = subnet-0b84ee057b64da006
 use_public_ips = false
 ```
-We have the configuration file located at this link: https://github.com/rsignell-usgs/coawst-aws/blob/master/ghost_working_config
+We have the same configuration file located at this link: https://github.com/rsignell-usgs/coawst-aws/blob/master/ghost_working_config
 
 The we created the cluster with the name "ghost":
 ```
-pcluster create ghost 
+pcluster create -c ghost_config ghost
 ```
+Note: 11 mins took to do this step  
 
+When configuration was complete setting up it showed no errors in the config file and said that the stack was completed
 
+Note: The configuration file is created on the path ~/.parallelcluster/config in our local machine
 
-
-
-
-#### 4. 
-Assuming that our scientific code is already setup on the cloud environment, the user needs to login into the master node of EC2 and then would use the compute nodes to run our jobs. These jobs are submitted through a batch job scheduler (Slurm or PBS). This is similar to a HPC environment.  
-To do this, first switch the master node on by. It can be thought of as turning the computer on. For this, the user needs to know id associated with the master node. 
-```
-```
-Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair to connect to the master node that is provided by the admin. 
-```
-```
-After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting and turning the master node off. 
-```
-```
-The admin can also create an alarm to automatically terminate master node off if it is left unused.
-
-
+#### 4.  
 
  4. pcluster configure
 
