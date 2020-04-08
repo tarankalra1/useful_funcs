@@ -1,5 +1,5 @@
 
-These instructions would let one build a parallel cluster using AWS services. It will be equivalent to doing the job of an administrator for installing and maintaing a HPC facility for scientific computing applications. The instructions are heavily borrowed from the work of Jiawei Zhang from Harvard University. His two papers provide all the details related for advancing scientific computing applications on a cloud environment  
+These instructions would let one build a parallel cluster using AWS services. It will be equivalent to doing the job of an administrator for installing and maintaing a HPC facility for scientific computing applications. The instructions are heavily borrowed from the work of Jiawei Zhang from Harvard University. His two papers provide all the details related for advancing scientific computing applications on a cloud environment.The following steps require a basic knowledge of setting up COAWST on a local machine and a patient mind. 
 
 A HPC type AWS cloud environment contains two resources that users would use and they include:
 * EC2 -> Elastic Compute Cloud that is equivalent of having a machine to run the jobs.
