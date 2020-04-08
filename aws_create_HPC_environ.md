@@ -1,4 +1,61 @@
 
+These instructions would let one build a parallel cluster using AWS services. It will be equivalent to doing the job of an administrator for installing and maintaing a HPC facility for scientific computing applications. The instructions are heavily borrowed from the work of Jiawei Zhang at Harvard University and his two papers provide all the details related for advancing scientific computing applications on a cloud environment  
+
+A HPC type AWS cloud environment contains two resources that users would use and they include:
+* EC2 -> Elastic Compute Cloud that is equivalent of having a machine to run the jobs.
+* S3  -> Simple Storage Service that is where one can store (It is much cheaper to store here than EC2). 
+
+#### 1. Obtaining a AWS account 
+The AWS account for users is usually created by the overarching agency that is paying for those resources. 
+It contains two pieces of information 
+* 1.1 Username and password that can be used to login directly to the AWS website (aws.amazon.com) in this case. The user can use the web console to login check the status of resources under Services tab. One example of this could be checking the status of EC2 whether it is running, what amount of resources are being utilized etc., several other options for users to setup their cloud environment. 
+
+* 1.2 AWS Identity and Access Management (IAM) information that contains an access key and secret access key. It is equivalent to having a secret key to use AWS commands from our local machine. The next step shows us how it is exactly utilized. 
+
+#### 2. Setting up our local machine to use AWS commands
+There are many ways to install software that can lead to using AWS commands from our local machine. One good idea is to use the anaconda tool that is widely used and is free to use. It can be downloaded in all platforms (Windows, MAC, Linux). The main idea behind using anaconda is to have a command type terminal on our local machine. Legacy users can think of this as CYGWIN. 
+Download link: https://www.anaconda.com/distribution/#download-section
+
+Once anaconda is installed it provides a command line environment to install AWSCLI (i.e. AWS Command Line Interface). AWSCLI software would let the users to use AWS commands from their local machine. To install AWSCLI open the anaconda terminal and type the following command to get the AWSCLI:
+```
+conda forge
+```
+Now we have the software installed to use AWS commands and need to configure them with the secret access key. 
+This is done by the command:
+```
+aws configure 
+```
+It asks for the following questions that contain the IAM information for each user (Section 1.2). An example is shown here:
+```
+AWS Access Key ID [None]: ARANTLRADSGH 
+AWS Secret Access Key [None]: wxxxxxxxxxxxxxxxxEXAMPLEKEY
+Default region name [None]: us-west-2
+Default output format [None]: json
+```
+Now we are all set to use the AWS commandsfrom local machine and can check that this works by logging into AWS console (Section 1.1). 
+We can try to send a simple textfile from local machine to AWS S3 storage.
+```
+aws cp 
+```
+
+#### 3. Configuring parallel cluster options 
+
+#### 4. 
+Assuming that our scientific code is already setup on the cloud environment, the user needs to login into the master node of EC2 and then would use the compute nodes to run our jobs. These jobs are submitted through a batch job scheduler (Slurm or PBS). This is similar to a HPC environment.  
+To do this, first switch the master node on by. It can be thought of as turning the computer on. For this, the user needs to know id associated with the master node. 
+```
+```
+Now that the master node is running, we can login into that by using this command. At this point, the user should have a key pair to connect to the master node that is provided by the admin. 
+```
+```
+After this, we are logged in the master node. From here on it is a regular HPC environment to run our jobs. Exiting and turning the master node off. 
+```
+```
+The admin can also create an alarm to automatically terminate master node off if it is left unused.
+
+
+
+
 conda install -c conda-forge awscli
 conda install -c conda-forge aws-parallelcluster
 Start the configurattion At this point need the IAM configuration secret key settings.
