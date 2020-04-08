@@ -18,8 +18,12 @@ Download link: https://www.anaconda.com/distribution/#download-section
 
 Once anaconda is installed it provides a command line environment to install AWSCLI (i.e. AWS Command Line Interface). AWSCLI software would let the users to use AWS commands from their local machine. To install AWSCLI open the anaconda terminal and type the following command to get the AWSCLI:
 ```
-conda forge
+conda install -c conda-forge awscli
 ```
+```
+conda install -c conda-forge aws-parallelcluster
+```
+
 Now we have the software installed to use AWS commands and need to configure them with the secret access key. 
 This is done by the command:
 ```
@@ -32,11 +36,11 @@ AWS Secret Access Key [None]: wxxxxxxxxxxxxxxxxEXAMPLEKEY
 Default region name [None]: us-west-2
 Default output format [None]: json
 ```
-Now we are all set to use the AWS commandsfrom local machine and can check that this works by logging into AWS console (Section 1.1). 
-We can try to send a simple textfile from local machine to AWS S3 storage.
+Now we are all set to use the AWS commandsfrom local machine and can check that this works by logging into AWS console (Section 1.1). We can try to send a simple textfile from local machine to AWS S3 storage.
 ```
-aws cp 
+aws s3 textfile_check.txt cp s3://coawst/textfile_check.txt  
 ```
+Transfers a sample textfile_check.txt to S3/coawst directory. One can check that it is copied by accessing the S3 services in AWS console and navigating to the coawst folder.
 
 #### 3. Configuring parallel cluster options 
 
@@ -55,15 +59,7 @@ The admin can also create an alarm to automatically terminate master node off if
 
 
 
-
-conda install -c conda-forge awscli
-conda install -c conda-forge aws-parallelcluster
-Start the configurattion At this point need the IAM configuration secret key settings.
-
-aws configure
-Got this from Rich
-
-https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html 4. pcluster configure
+ 4. pcluster configure
 
 INFO: Configuration file /home/taran/.parallelcluster/config will be written.
 
@@ -74,7 +70,11 @@ VPC instructions for AWS parallelcluster Automate VPC creation? (y/n) [n]: y All
 Master in a public subnet and compute fleet in a private subnet
 Master and compute fleet in the same public subnet Network Configuration [Master in a public subnet and compute fleet in a private subnet]: 1 Beginning VPC creation. Please do not leave the terminal until the creation is finalized =
 When AWS was complete it showed no errors in the config file and said that the stack was completed
+
+```
 pcluster create -c ghost_config ghost
+```
+
 11 mins took to do this step .
 
 ========================================= https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html
@@ -83,10 +83,13 @@ The master node manages the cluster and typically runs master components of dist
 
 Install Intel Compiler with Spack
 Install Spack on a fresh AWS HPC cluster
+```
 cd $HOME
 git clone https://github.com/spack/spack.git
 cd spack
 git checkout 3f1c78128ed8ae96d2b76d0e144c38cbc1c625df  # Spack v0.13.0 release in Oct 26 2019 broke some previous commands. Freeze it to ~Sep 2019.
+```
+
 echo 'source $HOME/spack/share/spack/setup-env.sh' >> $HOME/.bashrc
 source $HOME/.bashrc
 spack compilers  # check whether Spack can find system compilers
