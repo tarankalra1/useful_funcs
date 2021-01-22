@@ -1,0 +1,17 @@
+function [closestX2, closestY2]=short_dist_new(x1,y1,xin,yin)
+% find the nearest point from a given set of query points in a vector 
+% xin, yin is the vector of points
+% x1 and y1 are given points
+% Compute the distance of each of those points from (0, 0)
+for j=1:length(xin)
+    distances(j) = sqrt((x1-xin(j)) .^ 2 + (y1-yin(j)) .^ 2);
+end
+
+% Find the closest one.
+%[minDistance, indexOfMin] = minmat(distances');
+[fill,ind]=minmat2(distances);
+
+%id=squeeze(indexOfMin(1,:));
+%id
+closestX2 = xin(ind);
+closestY2 = yin(ind);
