@@ -1,0 +1,34 @@
+https://tidesandcurrents.noaa.gov/waterlevels.html?id=8575512&units=metric&bdate=20201117&edate=20211117&timezone=GMT&datum=NAVD&interval=h&action=data
+
+filename=('CO-OPS_8575512_met.csv');
+M = readtable(filename);
+
+
+%
+% % 
+%     vobj=VideoWriter('uvbar_movie_FI','Motion JPEG AVI');
+%     vob.Quality=50 ;
+%     vobj.FrameRate=10;
+%     open(vobj)
+% % nt=12;
+%     for nt=1:1:1077 % ntime
+%         %zeta_in=zeta2(:,:,nt);
+%         ndays=oceantime(nt)/(3600*24) -56658
+% 
+%       %  zeta_loc=zeta(1:end-1,1:end-1,nt).*wetdry_mask(1:end-1,1:end-1,nt);
+%         zeta2(1:991,1:471)=squeeze(zeta(nt,:,:));
+%         pcolorjw(zeta2)
+%        
+%         %pcolorjw(lon_rho_in, lat_rho_in, M) ;
+%         caxis([-0.5 0.5])
+%         colorbar
+% %        cmocean('tarn')
+%         hold on
+%        
+%      %  quiver(lon_rho_in(1:skx:end,1:sky:end), lat_rho_in(1:skx:end,1:sky:en
+%     mov=getframe(gcf); %,[0 0 562 421]) ; 
+%     pause(1)
+%     writeVideo(vobj,mov);
+%     h=gcf;
+%     clf('reset')
+% end 
