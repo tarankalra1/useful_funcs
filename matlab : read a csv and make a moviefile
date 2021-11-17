@@ -2,7 +2,9 @@ https://tidesandcurrents.noaa.gov/waterlevels.html?id=8575512&units=metric&bdate
 
 filename=('CO-OPS_8575512_met.csv');
 M = readtable(filename);
-
+M1=(M(:,5));
+M2=table2array(M1);
+nanmean(M2)
 
 %
 % % 
